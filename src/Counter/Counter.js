@@ -3,19 +3,30 @@ import './Counter.css';
 import WordSummary from './WordSummary/WordSummary';
 
 class Counter extends Component {
-		
 		state={
 			words:[],
 			counter:0
 		};
+
+	restrictEnter(e){
+		if(e.key === "Enter"){
+			e.preventDefault();
+		}
+	}
 	
 	handleInputChange = (e) => {
 		let word = e.target.value;
-		let data = word.split(' ');
+		
+		
+		let data = word.split(" ");
+		 //data.shift(); //removes the default space
+		
+		let spaces = data.filter(word => word == "");
+		
 		
 		this.setState({
 			words:data,
-			counter: data.length-1
+			counter: (data.length)-(spaces.length)
 		})
 	}
 	
@@ -24,7 +35,8 @@ class Counter extends Component {
     return (
       <div className="Counter">
 		<WordSummary wordCount={this.state.counter}/>
-      	<textarea onChange={this.handleInputChange}/>
+      	<textarea onKeyPress={this.restrictEnter} 
+		onChange={this.handleInputChange} />
       </div>
     );
   }
