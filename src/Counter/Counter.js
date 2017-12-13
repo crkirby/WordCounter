@@ -17,17 +17,17 @@ class Counter extends Component {
 	handleInputChange = (e) => {
 		let word = e.target.value;
 		
+		let data = this.state.words.slice(); 
 		
-		let data = word.split(" ");
-		 //data.shift(); //removes the default space
+		data = word.split(" ");
 		
-		let spaces = data.filter(word => word == "");
-		
+		let spaces = data.filter(word => word === "");
 		
 		this.setState({
 			words:data,
 			counter: (data.length)-(spaces.length)
 		})
+		
 	}
 	
 	
@@ -35,8 +35,12 @@ class Counter extends Component {
     return (
       <div className="Counter">
 		<WordSummary wordCount={this.state.counter}/>
-      	<textarea onKeyPress={this.restrictEnter} 
+		
+      	<textarea autoFocus 
+		placeholder="Enter text or paste with Command (⌘) + V or Ctrl + V . . ."
+		onKeyPress={this.restrictEnter} 
 		onChange={this.handleInputChange} />
+		
       </div>
     );
   }
