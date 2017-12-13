@@ -7,6 +7,24 @@ class Counter extends Component {
 			words:[],
 			counter:0
 		};
+	
+	
+	componentDidMount(){
+		let placeholderStr = "Enter text or paste with Command (⌘) + V or Ctrl + V . . . .";
+		let ta = document.querySelector('textarea');
+		var pArr = [...placeholderStr];
+		var i = -1;
+		
+		(function runPlaceHolder(){
+			i = (i + 1) % pArr.length;
+			if(i !== pArr.length-1){
+				ta.placeholder += pArr[i];
+				setTimeout(runPlaceHolder, 45);	
+			}
+		})();
+
+	}
+	
 
 	restrictEnter(e){
 		if(e.key === "Enter"){
@@ -37,7 +55,6 @@ class Counter extends Component {
 		<WordSummary wordCount={this.state.counter}/>
 		
       	<textarea autoFocus 
-		placeholder="Enter text or paste with Command (⌘) + V or Ctrl + V . . ."
 		onKeyPress={this.restrictEnter} 
 		onChange={this.handleInputChange} />
 		
