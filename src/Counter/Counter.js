@@ -10,6 +10,7 @@ class Counter extends Component {
 	
 	
 	componentDidMount(){
+		
 		let placeholderStr = "Enter text or paste with Command (⌘) + V or Ctrl + V . . . .";
 		let ta = document.querySelector('textarea');
 		var pArr = [...placeholderStr];
@@ -22,9 +23,9 @@ class Counter extends Component {
 				setTimeout(runPlaceHolder, 45);	
 			}
 		})();
-
+		
 	}
-	
+
 
 	restrictEnter(e){
 		if(e.key === "Enter"){
@@ -39,11 +40,16 @@ class Counter extends Component {
 		
 		data = word.split(" ");
 		
-		let spaces = data.filter(word => word === "");
+		let nonAlphas = data.filter(word => {
+			return (
+				word === "" || (word >= "0" && word <= "9")
+				/*restrict punctuation strings*/
+			)
+		});
 		
 		this.setState({
 			words:data,
-			counter: (data.length)-(spaces.length)
+			counter: (data.length)-(nonAlphas.length)
 		})
 		
 	}

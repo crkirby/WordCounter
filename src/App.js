@@ -3,6 +3,12 @@ import './App.css';
 import Counter from './Counter/Counter';
 
 class App extends Component {
+	
+	
+	isIdle(){
+		setInterval(alert("Still there?"), 10000);
+	}
+	
   render() {
     return (
       <div className="App">
@@ -10,7 +16,7 @@ class App extends Component {
           <h1 className="App-title">Word Responsible</h1>
         </header>
        
-		<Counter />
+		<Counter idle={this.isIdle}/>
 		
       </div>
     );
