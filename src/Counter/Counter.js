@@ -8,50 +8,36 @@ class Counter extends Component {
 			counter:0
 		};
 	
-	
 	componentDidMount(){
-		
 		let placeholderStr = "Enter text or paste with Command (⌘) + V or Ctrl + V . . . .";
 		let ta = document.querySelector('textarea');
 		var pArr = [...placeholderStr];
 		var i = -1;
-		
 		(function runPlaceHolder(){
 			i = (i + 1) % pArr.length;
 			if(i !== pArr.length-1){
 				ta.placeholder += pArr[i];
-				setTimeout(runPlaceHolder, 45);	
+				setTimeout(runPlaceHolder, 30);	
 			}
 		})();
-		
 	}
 
-
-	restrictEnter(e){
-		if(e.key === "Enter"){
-			e.preventDefault();
-		}
+	restrictEnterKeyPress(e){
+		if(e.key === "Enter"){ e.preventDefault(); }
 	}
 	
 	handleInputChange = (e) => {
 		let word = e.target.value;
-		
 		let data = this.state.words.slice(); 
-		
-		data = word.split(" ");
-		
-		let nonAlphas = data.filter(word => {
-			return (
-				word === "" || (word >= "0" && word <= "9")
-				/*restrict punctuation strings*/
-			)
+		data = word.split(/\W/);
+		let spaces = data.filter(w => {
+			return( /\W/.test(w) === true|| w === "" || ((w >= '0') && (w <= '9' )) );	
 		});
-		
+								 
 		this.setState({
 			words:data,
-			counter: (data.length)-(nonAlphas.length)
+			counter: (data.length)-(spaces.length)
 		})
-		
 	}
 	
 	
@@ -59,11 +45,9 @@ class Counter extends Component {
     return (
       <div className="Counter">
 		<WordSummary wordCount={this.state.counter}/>
-		
       	<textarea autoFocus 
-		onKeyPress={this.restrictEnter} 
+		onKeyPress={this.restrictEnterKeyPress} 
 		onChange={this.handleInputChange} />
-		
       </div>
     );
   }
